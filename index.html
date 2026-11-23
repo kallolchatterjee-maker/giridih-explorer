@@ -3,123 +3,195 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Giridih Assembly Explorer · गिरिडीह विधानसभा एक्सप्लोरर</title>
 <style>
-:root{--bg:#edf2ed;--fg:#182b24;--mut:#718078;--card:#fff;--line:#e2e9e3;--acc:#c85a35;--pine:#17392f;--pine-soft:#e7f0eb;--muteFill:#d7dfd9;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+:root{--bg:#e8eeea;--fg:#162a22;--mut:#71827a;--card:#fff;--line:#e4ebe6;--acc:#c85a35;--pine:#143a2e;--pine-2:#1d5140;--pine-soft:#e9f2ed;--muteFill:#d7dfd9;--glass:rgba(255,255,255,.91);--glass-line:rgba(255,255,255,.9);--shadow:0 20px 55px rgba(20,45,34,.15),0 3px 12px rgba(20,45,34,.06);--shadow-sm:0 8px 26px rgba(20,45,34,.11);box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
 html{color-scheme:light}
-*{box-sizing:border-box}html,body{height:100%;margin:0}
-body{background:var(--bg);color:var(--fg);font:14px/1.5 Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI","Nirmala UI",sans-serif}
+*{box-sizing:border-box}html,body{height:100%;margin:0;overscroll-behavior:none}
+body{background:var(--bg);color:var(--fg);font:13.5px/1.5 Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI","Nirmala UI",sans-serif;font-feature-settings:"cv02","cv03","cv04","ss01";-webkit-font-smoothing:antialiased}
 button,input{font:inherit}
-button{transition:background .18s ease,border-color .18s ease,color .18s ease,box-shadow .18s ease,transform .18s ease}
-button:focus-visible,input:focus-visible{outline:3px solid rgba(200,90,53,.28);outline-offset:2px}
+button{cursor:pointer;border:0;background:none;color:inherit;transition:background .18s ease,border-color .18s ease,color .18s ease,box-shadow .18s ease,transform .18s ease}
+button:focus-visible,input:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
 .wrap{position:relative;height:100%;overflow:hidden;background:var(--bg)}
-aside{position:absolute;z-index:5;left:18px;top:78px;bottom:18px;width:340px;padding:18px;background:rgba(255,255,255,.94);border:1px solid rgba(255,255,255,.9);border-radius:20px;box-shadow:0 18px 55px rgba(28,52,40,.16),0 2px 8px rgba(28,52,40,.06);overflow:auto;display:flex;flex-direction:column;gap:12px;backdrop-filter:blur(18px);scrollbar-width:thin;scrollbar-color:#cbd6ce transparent}
+@keyframes rise{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+/* ---------------------------------------------------------- TOP COMMAND BAR */
+.topbar{position:absolute;z-index:8;top:0;left:0;right:0;height:66px;display:flex;align-items:center;justify-content:space-between;gap:16px;padding:0 22px;background:linear-gradient(180deg,rgba(255,255,255,.97),rgba(255,255,255,.84));border-bottom:1px solid rgba(255,255,255,.92);box-shadow:0 6px 24px rgba(20,45,34,.06);backdrop-filter:blur(20px) saturate(1.5);animation:rise .45s cubic-bezier(.2,.8,.2,1) both}
+.brand{display:flex;align-items:center;gap:11px;min-width:0}
+.brand-mark{width:38px;height:38px;flex:0 0 38px;border-radius:11px;background:linear-gradient(145deg,var(--pine),var(--pine-2));display:grid;place-items:center;box-shadow:0 7px 16px rgba(20,58,46,.26)}
+.brand-mark svg{width:21px;height:21px;stroke:#fff;stroke-width:1.7;fill:none;stroke-linecap:round;stroke-linejoin:round}
+.brand-kicker{display:block;font-size:8.5px;font-weight:800;letter-spacing:.17em;color:#8b9a91;text-transform:uppercase;white-space:nowrap}
+.brand-title{display:block;font-size:15.5px;font-weight:750;letter-spacing:-.02em;color:var(--pine);line-height:1.2;white-space:nowrap}
+.topbar-actions{display:flex;align-items:center;gap:9px;flex:0 0 auto}
+#lang{padding:9px 14px;border:1px solid #dfe8e1;border-radius:999px;background:rgba(255,255,255,.9);color:var(--pine);font-size:11px;font-weight:750;box-shadow:0 2px 8px rgba(20,45,34,.05)}
+#lang:hover{background:var(--pine-soft);border-color:#bfd2c5}
+#tg{display:flex;align-items:center;gap:7px;padding:9px 13px;border:1px solid #dfe8e1;border-radius:999px;background:rgba(255,255,255,.9);color:var(--pine);font-size:11px;font-weight:750;box-shadow:0 2px 8px rgba(20,45,34,.05)}
+#tg:hover{background:var(--pine-soft);border-color:#bfd2c5}
+#tg svg{width:15px;height:15px;stroke:currentColor;stroke-width:1.9;fill:none;stroke-linecap:round}
+/* -------------------------------------------------------------- SIDE PANEL */
+aside{position:absolute;z-index:7;left:20px;top:82px;bottom:20px;width:352px;display:flex;flex-direction:column;gap:11px;padding:16px 15px;background:var(--glass);border:1px solid var(--glass-line);border-radius:22px;box-shadow:var(--shadow);backdrop-filter:blur(24px) saturate(1.5);overflow-y:auto;overflow-x:hidden;scrollbar-width:thin;scrollbar-color:#c9d7cd transparent;animation:rise .5s .04s cubic-bezier(.2,.8,.2,1) both}
 aside.hide{display:none}
-#tg,#lang{position:absolute;z-index:6;top:18px;width:auto;min-height:42px}
-#tg{left:18px}
-#lang{left:148px}
-h1{font-size:23px;line-height:1.14;letter-spacing:-.04em;font-weight:750;margin:0;color:var(--pine)}
-.sub{color:var(--mut);font-size:12px;margin:7px 0 0;line-height:1.55}
-aside>div:first-child{padding:2px 2px 6px}
-aside>div:first-child:before{content:"DISTRICT FIELD ATLAS";display:block;margin:0 0 8px;color:#85948b;font-size:9px;font-weight:800;letter-spacing:.17em}
-.card{background:var(--card);border:1px solid var(--line);border-radius:15px;padding:14px;box-shadow:0 3px 12px rgba(28,52,40,.035)}
-.card h3{margin:0 0 9px;font-size:10px;line-height:1.3;font-weight:800;letter-spacing:.13em;text-transform:uppercase;color:#7a8980}
-#info b{display:block;color:var(--pine);font-size:21px;line-height:1.2;letter-spacing:-.025em;margin:0 0 8px}
-.kv{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;border-top:1px solid #edf1ed;padding:7px 0;font-size:12px}
-.kv span:first-child{color:var(--mut)}
-.kv span:last-child{text-align:right;font-weight:600;color:#35473e}
-input[type=search]{width:100%;padding:10px 12px;border:1px solid #dfe7e0;border-radius:10px;background:#f8faf8;color:var(--fg);font-size:12px;transition:border-color .18s ease,box-shadow .18s ease}
-input[type=search]::placeholder{color:#97a39b}
-input[type=search]:focus{border-color:#9bb7a5;box-shadow:0 0 0 3px rgba(67,119,84,.1);outline:none}
-.list{max-height:220px;overflow:auto;font-size:12px;scrollbar-width:thin;scrollbar-color:#cbd6ce transparent}
-.list div{padding:7px 9px;border-radius:8px;cursor:pointer;transition:background .15s ease,color .15s ease}.list div:hover{background:#f0f5f1}
-button,label.btn{font-size:12px;font-weight:650;padding:8px 11px;border:1px solid #dfe7e0;border-radius:9px;background:#fff;color:#405248;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:6px}
-button:hover,label.btn:hover{border-color:#b7c8bc;background:#f5f8f5;transform:translateY(-1px)}
-.note{font-size:10px;color:var(--mut);line-height:1.6}
-#map{position:absolute;inset:0;overflow:hidden;background-color:#edf2ed;background-image:radial-gradient(ellipse at 74% 44%,rgba(195,215,198,.34),transparent 43%),radial-gradient(rgba(81,115,91,.12) .7px,transparent .7px);background-size:auto,22px 22px}
+aside::-webkit-scrollbar{width:5px}aside::-webkit-scrollbar-thumb{background:#c9d7cd;border-radius:9px}
+.panel-head{padding:3px 3px 1px}
+.panel-eyebrow{display:block;margin-bottom:7px;font-size:8.5px;font-weight:800;letter-spacing:.16em;text-transform:uppercase;color:#8b9a91}
+h1{margin:0;font-size:20px;line-height:1.15;letter-spacing:-.035em;font-weight:760;color:var(--pine)}
+.sub{margin:7px 0 0;font-size:11px;line-height:1.55;color:var(--mut)}
+.stat-strip{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-top:13px}
+.stat-strip>div{background:rgba(233,242,237,.8);border:1px solid #e0eae3;border-radius:11px;padding:8px 5px;text-align:center}
+.stat-strip b{display:block;font-size:15px;font-weight:780;letter-spacing:-.02em;color:var(--pine);font-variant-numeric:tabular-nums;line-height:1.2}
+.stat-strip span{display:block;margin-top:2px;font-size:8px;font-weight:750;letter-spacing:.07em;text-transform:uppercase;color:#86958c}
+.card{background:var(--card);border:1px solid var(--line);border-radius:15px;padding:13px;box-shadow:0 2px 9px rgba(20,45,34,.035);animation:rise .42s .08s cubic-bezier(.2,.8,.2,1) both}
+.card h3{display:flex;align-items:center;gap:8px;margin:0 0 10px;font-size:9px;line-height:1.3;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:#87968c}
+.card h3::after{content:"";flex:1;height:1px;background:linear-gradient(90deg,var(--line),transparent)}
+#info b{display:block;margin:0 0 8px;color:var(--pine);font-size:19px;line-height:1.2;letter-spacing:-.025em;font-weight:750}
+.kv{display:flex;justify-content:space-between;align-items:baseline;gap:10px;border-top:1px solid #eef2ee;padding:6px 0;font-size:11.5px}
+.kv span:first-child{color:var(--mut)}.kv span:last-child{text-align:right;font-weight:650;color:#35473e}
+.search-wrap{position:relative}
+.search-wrap svg{position:absolute;left:11px;top:50%;transform:translateY(-50%);width:14px;height:14px;stroke:#93a39a;stroke-width:2;fill:none;stroke-linecap:round;pointer-events:none}
+input[type=search]{width:100%;padding:10px 12px 10px 33px;border:1px solid #e0e8e2;border-radius:11px;background:#f7faf8;color:var(--fg);font-size:12px;transition:border-color .18s,box-shadow .18s,background .18s}
+input[type=search]::placeholder{color:#9aa9a0}
+input[type=search]:focus{border-color:#9bb7a5;background:#fff;box-shadow:0 0 0 3px rgba(67,119,84,.1);outline:none}
+.list{max-height:186px;overflow:auto;font-size:11.5px;scrollbar-width:thin;scrollbar-color:#c9d7cd transparent}
+.list::-webkit-scrollbar{width:5px}.list::-webkit-scrollbar-thumb{background:#c9d7cd;border-radius:9px}
+.list div{margin-bottom:3px;padding:8px 10px;border-radius:9px;cursor:pointer;line-height:1.35;color:#3b5044;transition:background .15s,color .15s,transform .15s}
+.list div:hover{background:var(--pine-soft);transform:translateX(2px)}
+.list div.on{background:var(--pine);color:#fff}
+.list div small{opacity:.66;font-size:10px}
+.pill{font-size:9.5px;font-weight:780;background:var(--pine-soft);color:#2e6a4c;border-radius:999px;padding:3px 8px;margin-left:5px;vertical-align:1px}
+.btns{display:grid;grid-template-columns:1fr 1fr;gap:7px}
+.tool-btn{display:flex;align-items:center;gap:7px;min-width:0;padding:9px 10px;border:1px solid #e2e9e3;border-radius:10px;background:#fbfcfb;color:#486052;font-size:10.5px;font-weight:680;text-align:left;line-height:1.2}
+.tool-btn svg{width:14px;height:14px;flex:0 0 14px;stroke:currentColor;stroke-width:1.8;fill:none;stroke-linecap:round;stroke-linejoin:round}
+.tool-btn:hover{border-color:#bfd2c5;background:#f2f7f3;transform:translateY(-1px)}
+.tool-btn.on{background:var(--pine);border-color:var(--pine);color:#fff;box-shadow:0 5px 14px rgba(20,58,46,.2)}
+.tool-btn.on:hover{background:var(--pine-2);border-color:var(--pine-2)}
+.ctl{display:flex;align-items:center;gap:9px;font-size:10.5px;font-weight:680;color:var(--mut);margin-top:10px}
+.ctl>span{flex:0 0 82px}
+.ctl input[type=range]{flex:1;min-width:0;height:4px;accent-color:var(--acc);padding:0;margin:0;cursor:pointer}
+.ctl output{flex:0 0 30px;text-align:right;font-size:10px;font-weight:780;color:var(--pine);font-variant-numeric:tabular-nums}
+.switch{position:relative;appearance:none;-webkit-appearance:none;width:34px;height:19px;flex:0 0 34px;border-radius:999px;background:#d4ded7;cursor:pointer;transition:background .2s;margin:0}
+.switch::after{content:"";position:absolute;top:2px;left:2px;width:15px;height:15px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.22);transition:transform .2s}
+.switch:checked{background:var(--pine)}.switch:checked::after{transform:translateX(15px)}
+.note{font-size:9.5px;line-height:1.65;color:#84938a}
+.note b{font-weight:750;color:#52675a}
+#vstat{min-height:14px;margin:7px 0}
+/* ------------------------------------------------------------- MAP CANVAS */
+#map{position:absolute;inset:0;overflow:hidden;background-color:#e8eeea;background-image:radial-gradient(ellipse at 72% 42%,rgba(190,212,195,.34),transparent 44%),radial-gradient(rgba(70,105,83,.1) .7px,transparent .7px);background-size:auto,24px 24px}
 svg{width:100%;height:100%;display:block;cursor:grab;touch-action:none}
 svg:active{cursor:grabbing}
-.ac{stroke:#f5f8f4;stroke-width:1.35;vector-effect:non-scaling-stroke;transition:opacity .15s}
-.ac.dim{opacity:.35}.ac.sel{stroke:var(--pine);stroke-width:2.2}
-.vil{fill:var(--acc);fill-opacity:.14;stroke:#b94a2d;stroke-width:.7;vector-effect:non-scaling-stroke}
-.vil:hover,.vil.sel{fill-opacity:.58}
-.lbl{font:700 11px system-ui;fill:var(--pine);text-anchor:middle;pointer-events:none;paint-order:stroke;stroke:#f4f7f2;stroke-width:3.5px}
-#tip{position:absolute;z-index:4;pointer-events:none;background:#17392f;color:#fff;padding:7px 10px;border:1px solid rgba(255,255,255,.18);border-radius:9px;font-size:11px;font-weight:600;box-shadow:0 8px 24px rgba(20,40,30,.18);display:none}
-.zoom{position:absolute;right:20px;top:18px;display:flex;flex-direction:column;gap:8px;padding:6px;background:rgba(255,255,255,.88);border:1px solid rgba(255,255,255,.9);border-radius:14px;box-shadow:0 8px 24px rgba(28,52,40,.12);backdrop-filter:blur(12px)}
-.zoom button{width:38px;height:38px;padding:0;font-size:19px;border:0;border-radius:9px;background:transparent;color:var(--pine)}
-.zoom button:hover{background:var(--pine-soft);transform:none}
-.pill{font-size:10px;font-weight:750;background:var(--pine-soft);color:#2e6a4c;border-radius:999px;padding:3px 8px;margin-left:5px;vertical-align:1px}
-.btns{display:flex;flex-wrap:wrap;gap:7px}
-button.on{background:var(--pine);border-color:var(--pine);color:#fff}
-button.on:hover{background:#245343;border-color:#245343}
-.list div{margin-bottom:2px;line-height:1.4}
-.list div.on{background:var(--pine);color:#fff}
-.list div small{opacity:.7}
-.ac.mute{fill-opacity:.72;stroke:#f7f9f6;cursor:default}
-.ac.mute:hover{fill-opacity:.9}
-.ac.dim{opacity:.22}
-.ac.mute.dim{opacity:.55}
-.vlabel{font:600 9px system-ui,"Nirmala UI",sans-serif;fill:var(--pine);text-anchor:middle;pointer-events:none;paint-order:stroke;stroke:#f4f7f2;stroke-width:2.8px}
+.tile{pointer-events:none}
+.ac{stroke:#fff;stroke-width:1.15;vector-effect:non-scaling-stroke;transition:opacity .18s,fill-opacity .18s,stroke-width .18s}
+.ac:hover{stroke:var(--pine);stroke-width:1.9}
+.ac.sel{stroke:var(--pine);stroke-width:2.2}
+.ac.mute{cursor:default;stroke:#f7f9f6}
+.vil{fill:var(--acc);stroke:#b94a2d;stroke-width:.7;vector-effect:non-scaling-stroke;transition:fill-opacity .18s}
+.vil:hover,.vil.sel{fill-opacity:calc(var(--vilOp,.16)*3.2)}
+.vil.sel{stroke:var(--pine);stroke-width:2.2}
 .vil.off{display:none}
-.vil.sel{fill-opacity:.8;stroke-width:2.2}
-#vstat{min-height:16px}
-.note b{font-weight:700;color:#52675a}
-/* --- satellite basemap + opacity controls --- */
+/* keep opacity sliders authoritative */
 .ac{fill-opacity:var(--acOp,.64)}
 .ac.mute{fill-opacity:var(--acMuteOp,.52)}
 .ac.mute:hover{fill-opacity:calc(var(--acMuteOp,.52)*1.3)}
 .ac.dim{opacity:calc(var(--ovOp,.4)*.5)}
 .ac.mute.dim{opacity:calc(var(--ovOp,.4)*1.2)}
 .vil{fill-opacity:var(--vilOp,.16)}
-.vil:hover,.vil.sel{fill-opacity:calc(var(--vilOp,.16)*3.2)}
-.tile{pointer-events:none}
-#credit{position:absolute;right:20px;bottom:12px;z-index:3;pointer-events:none;background:rgba(255,255,255,.86);color:#405248;padding:3px 8px;border-radius:7px;font-size:10px;font-weight:600;box-shadow:0 4px 14px rgba(28,52,40,.1)}
-.ctl{display:flex;align-items:center;gap:9px;font-size:11px;font-weight:650;color:var(--mut);margin-top:9px}
-.ctl>span{flex:0 0 104px}
-.ctl input[type=range]{flex:1;min-width:0;accent-color:var(--acc);padding:0;margin:0}
-.ctl input[type=checkbox]{accent-color:var(--acc);width:16px;height:16px;padding:0;margin:0;flex:0 0 16px}
+.lbl{font:700 10.5px Inter,system-ui;fill:var(--pine);text-anchor:middle;pointer-events:none;paint-order:stroke;stroke:rgba(255,255,255,.94);stroke-width:3.2px;letter-spacing:.01em;transition:opacity .18s}
+.vlabel{font:600 9px Inter,"Nirmala UI",sans-serif;fill:#2c4438;text-anchor:middle;pointer-events:none;paint-order:stroke;stroke:rgba(255,255,255,.96);stroke-width:3px}
+#tip{position:absolute;z-index:9;pointer-events:none;background:rgba(20,58,46,.96);color:#fff;padding:8px 11px;border:1px solid rgba(255,255,255,.16);border-radius:10px;font-size:11px;font-weight:620;box-shadow:0 12px 32px rgba(10,30,20,.26);display:none;backdrop-filter:blur(10px)}
+/* --------------------------------------------------------- MAP CONTROLS */
+.controls{position:absolute;z-index:7;right:20px;top:86px;display:flex;flex-direction:column;padding:5px;background:var(--glass);border:1px solid var(--glass-line);border-radius:16px;box-shadow:var(--shadow-sm);backdrop-filter:blur(20px) saturate(1.4);animation:rise .5s .1s cubic-bezier(.2,.8,.2,1) both}
+.controls button{width:40px;height:40px;display:grid;place-items:center;border-radius:11px;color:var(--pine)}
+.controls button:hover{background:var(--pine-soft);transform:none}
+.controls svg{width:18px;height:18px;stroke:currentColor;stroke-width:1.9;fill:none;stroke-linecap:round;stroke-linejoin:round}
+.controls .sep{height:1px;background:var(--line);margin:4px 6px}
+/* --------------------------------------------------------------- HUD ===== */
+#hudbar{position:absolute;z-index:6;left:50%;bottom:18px;transform:translateX(-50%);display:flex;align-items:center;padding:5px 3px;background:var(--glass);border:1px solid var(--glass-line);border-radius:999px;box-shadow:var(--shadow-sm);backdrop-filter:blur(18px);font-size:10.5px;font-weight:650;color:#4a5f53;pointer-events:none;animation:rise .5s .14s cubic-bezier(.2,.8,.2,1) both}
+#hudbar span{padding:0 11px;white-space:nowrap;font-variant-numeric:tabular-nums}
+#hudbar span+span{border-left:1px solid var(--line)}
+.hud{position:absolute;z-index:6;right:20px;bottom:18px;display:flex;flex-direction:column;align-items:flex-end;gap:9px;pointer-events:none;animation:rise .5s .16s cubic-bezier(.2,.8,.2,1) both}
+.legend{pointer-events:auto;min-width:168px;padding:11px 12px;background:var(--glass);border:1px solid var(--glass-line);border-radius:14px;box-shadow:var(--shadow-sm);backdrop-filter:blur(20px) saturate(1.4)}
+.legend-title{margin-bottom:8px;font-size:8.5px;font-weight:800;letter-spacing:.15em;text-transform:uppercase;color:#87968c}
+.legend-row{display:flex;align-items:center;gap:8px;margin-top:5px;font-size:10px;color:#4a5f53}
+.sw{width:13px;height:13px;flex:0 0 13px;border-radius:4px;border:1px solid rgba(0,0,0,.08)}
+.sw.focus{background:#c2410c}.sw.mute{background:#ded9cf}.sw.vil{background:rgba(200,90,53,.24);border:1px solid #b94a2d}
+.scale-wrap{display:flex;flex-direction:column;align-items:flex-end;gap:2px}
+#scaleLine{height:6px;min-width:26px;max-width:220px;border:1.5px solid #52695c;border-top:0;background:rgba(255,255,255,.55);transition:width .2s}
+#scaleLbl{font-size:9px;font-weight:750;color:#52695c;font-variant-numeric:tabular-nums}
+#credit{font-size:9px;font-weight:650;color:#6d7f74;background:rgba(255,255,255,.72);padding:2px 7px;border-radius:6px}
+/* ----------------------------------------------------------- RESPONSIVE */
+@media(max-width:900px){.hud .legend{display:none}#hudbar{left:20px;transform:none}}
 @media(max-width:760px){
- aside{top:auto;left:10px;right:10px;bottom:10px;width:auto;max-height:48%;padding:14px;border-radius:18px;gap:9px}
- #tg,#lang{top:12px;min-height:40px}
- #tg{left:12px}#lang{left:136px}
- .zoom{right:12px;top:12px;gap:5px;padding:5px}
- .zoom button{width:36px;height:36px}
- .card{padding:12px}
- .list{max-height:130px}
+ .topbar{height:60px;padding:0 12px}
+ .brand-kicker{display:none}.brand-title{font-size:14px}
+ #tg span{display:none}#tg{padding:9px 11px}
+ aside{top:auto;left:10px;right:10px;bottom:10px;width:auto;max-height:52%;padding:13px;border-radius:18px;gap:9px}
+ .stat-strip{margin-top:9px}.list{max-height:120px}
+ .controls{right:12px;top:72px}.controls button{width:36px;height:36px}
+ #hudbar{bottom:auto;top:72px;left:12px;transform:none;font-size:9px}
+ .hud{right:12px;bottom:calc(52% + 18px)}
+ .hud .legend{display:none}
 }
-@media(max-width:420px){
- h1{font-size:20px}
- .sub{font-size:11px}
- aside{max-height:52%}
- .btns button{font-size:11px;padding:7px 9px}
-}
+@media(max-width:430px){h1{font-size:18px}.card{padding:11px}.tool-btn{font-size:10px;padding:8px}.stat-strip span{font-size:7.5px}}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style></head><body>
 <div class="wrap">
-<button id="tg" data-i18n="details">☰ Details</button>
-<button id="lang">हिन्दी</button>
-<aside id="panel">
- <div><h1 data-i18n="title">Giridih Assembly Explorer</h1><p class="sub" data-i18n-html="subtitle">Jharkhand · 6 highlighted segments · village names from <b>vb_soi_jh.GeoJSON</b></p></div>
- <div class="card" id="info"><h3>Selection</h3><div>Click a highlighted segment to explore its villages.</div></div>
- <div class="card">
-  <h3><span data-i18n="villagesH">Villages</span> <span id="vcount" class="pill"></span></h3>
-  <input id="q" type="search" placeholder="Search village or gram panchayat…">
-  <div id="vstat" class="note" style="margin:6px 0"></div>
-  <div class="list" id="res"></div>
+ <header class="topbar">
+  <div class="brand">
+   <div class="brand-mark"><svg viewBox="0 0 24 24"><path d="M3 6l6-3 6 3 6-3v15l-6 3-6-3-6 3z"/><path d="M9 3v15M15 6v15"/></svg></div>
+   <div class="brand-text"><span class="brand-kicker" data-i18n="panelEyebrow">JHARKHAND · FIELD ATLAS</span><strong class="brand-title" data-i18n="brandTitle">Giridih Explorer</strong></div>
+  </div>
+  <div class="topbar-actions">
+   <button id="lang">हिन्दी</button>
+   <button id="tg" aria-label="Toggle panel"><svg viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h10"/></svg><span data-i18n="details">Details</span></button>
+  </div>
+ </header>
+ <aside id="panel">
+  <div class="panel-head">
+   <span class="panel-eyebrow" data-i18n="panelEyebrow2">ASSEMBLY · VILLAGE LAYER</span>
+   <h1 data-i18n="title">Giridih Assembly Explorer</h1>
+   <p class="sub" data-i18n-html="subtitle">Jharkhand · 6 highlighted segments · village names from <b>vb_soi_jh.GeoJSON</b></p>
+   <div class="stat-strip">
+    <div><b>95</b><span data-i18n="statSegments">segments</span></div>
+    <div><b>6</b><span data-i18n="statFocus">highlighted</span></div>
+    <div><b>2,761</b><span data-i18n="statVillages">villages</span></div>
+   </div>
+  </div>
+  <div class="card" id="info"><h3>Selection</h3><div>Click a highlighted segment to explore its villages.</div></div>
+  <div class="card">
+   <h3><span data-i18n="villagesH">Villages</span> <span id="vcount" class="pill"></span></h3>
+   <div class="search-wrap"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg><input id="q" type="search" placeholder="Search village or gram panchayat…"></div>
+   <div id="vstat" class="note"></div>
+   <div class="list" id="res"></div>
+  </div>
+  <div class="card"><h3 data-i18n="layers">Map layers</h3><div class="btns">
+   <button id="vOutline" class="tool-btn on"><svg viewBox="0 0 24 24"><path d="M4 5l6-2 8 3 3-1v13l-8 2-7-3-2 1z"/><path d="M10 3v13M4 15l6 3"/></svg><span data-i18n="outlines">Village outlines</span></button>
+   <button id="vLabels" class="tool-btn"><svg viewBox="0 0 24 24"><path d="M5 5h14M12 5v14M9 19h6"/></svg><span data-i18n="names">Village names</span></button>
+   <button id="gfocus" class="tool-btn"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="7"/><circle cx="12" cy="12" r="2.2"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3"/></svg><span data-i18n="focus">Giridih focus</span></button>
+   <button id="showAll" class="tool-btn"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg><span data-i18n="all">All Jharkhand</span></button>
+  </div></div>
+  <div class="card"><h3 data-i18n="basemap">Basemap &amp; opacity</h3>
+   <label class="ctl"><span data-i18n="satellite">Satellite</span><input id="satToggle" class="switch" type="checkbox" checked></label>
+   <label class="ctl"><span data-i18n="satOp">Tile opacity</span><input id="satOp" type="range" min="0" max="100" value="55"><output id="satVal">55%</output></label>
+   <label class="ctl"><span data-i18n="ovOp">Overlay opacity</span><input id="ovOp" type="range" min="0" max="100" value="40"><output id="ovVal">40%</output></label>
+  </div>
+  <div class="note" data-i18n-html="sourceNote">Village boundaries &amp; names: <b>vb_soi_jh.GeoJSON</b> (EPSG:7755 → WGS 84, simplified). Assembly segments: <b>Jharkhand.geojson</b>. Imagery: <b>Esri World Imagery</b>. Areas are approximate.</div>
+ </aside>
+ <div id="map"><svg id="svg"></svg><div id="tip"></div>
+  <div class="controls">
+   <button id="zi" aria-label="Zoom in"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></button>
+   <button id="zo" aria-label="Zoom out"><svg viewBox="0 0 24 24"><path d="M5 12h14"/></svg></button>
+   <div class="sep"></div>
+   <button id="zr" aria-label="Reset map"><svg viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 3-6.7M3 4v5h5"/></svg></button>
+   <button id="quickFocus" aria-label="Giridih focus"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="7"/><circle cx="12" cy="12" r="2.2"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3"/></svg></button>
+  </div>
+  <div id="hudbar"><span id="coord">24.0000° N, 85.0000° E</span><span id="zoomLbl">Z 1.0</span></div>
+  <div class="hud">
+   <div class="legend">
+    <div class="legend-title" data-i18n="legend">Legend</div>
+    <div class="legend-row"><i class="sw focus"></i><span data-i18n="legendFocus">Giridih segments</span></div>
+    <div class="legend-row"><i class="sw mute"></i><span data-i18n="legendMuted">Other constituencies</span></div>
+    <div class="legend-row"><i class="sw vil"></i><span data-i18n="legendVillage">Village boundary</span></div>
+   </div>
+   <div class="scale-wrap"><div id="scaleLine"></div><span id="scaleLbl">—</span></div>
+   <div id="credit" data-i18n="credit">Imagery © Esri</div>
+  </div>
  </div>
- <div class="card"><h3 data-i18n="layers">Map layers</h3><div class="btns">
-  <button id="vOutline" class="on" data-i18n="outlines">Village outlines</button>
-  <button id="vLabels" data-i18n="names">Village names</button>
-  <button id="gfocus" data-i18n="focus">Giridih focus</button>
-  <button id="showAll" data-i18n="all">All Jharkhand</button>
- </div></div>
- <div class="card"><h3 data-i18n="basemap">Basemap &amp; opacity</h3>
-  <label class="ctl"><span data-i18n="satellite">Satellite</span><input id="satToggle" type="checkbox" checked></label>
-  <label class="ctl"><span data-i18n="satOp">Tile opacity</span><input id="satOp" type="range" min="0" max="100" value="55"></label>
-  <label class="ctl"><span data-i18n="ovOp">Overlay opacity</span><input id="ovOp" type="range" min="0" max="100" value="40"></label>
- </div>
- <div class="note" data-i18n-html="sourceNote">Village boundaries &amp; names: <b>vb_soi_jh.GeoJSON</b> (EPSG:7755 → WGS 84, simplified). Assembly segments: <b>Jharkhand.geojson</b>. Areas are approximate.</div>
-</aside>
-<div id="map"><svg id="svg"></svg><div id="tip"></div>
- <div class="zoom"><button id="zi" aria-label="Zoom in">+</button><button id="zo" aria-label="Zoom out">−</button><button id="zr" aria-label="Reset map">⟲</button></div>
- <div id="credit" data-i18n="credit">Imagery © Esri</div></div>
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
 <script>
@@ -140,7 +212,7 @@ const AC_HI={28:'धनवार',30:'जमुआ (अनु.जा.)',31:'ग�
 const PC_HI={KODARMA:'कोडर्मा',GIRIDIH:'गिरिडीह'};
 const DIST_HI={'Giridih':'गिरिडीह','Koderma':'कोडर्मा','Dhanbad':'धनबाद','Bokaro':'बोकारो','Dumka':'दुमका','Deoghar':'देवघर','Godda':'गोड्डा','Palamu':'पालामू','Sahebganj':'साहेबगंज','West Singhbhum':'पश्चिम सिंहभूम','East Singhbhum':'पूर्व सिंहभूम','Chatra':'छत्रा','Ranchi':'राँची','Hazaribagh':'हज़ारीबाग','Pakur':'पाकुर','Saraikela Kharsawan':'सराइकेला खरसावाँ','Jamtara':'जामताड़ा','Gumla':'गुमला','Garhwa':'गढ़वा','Latehar':'लातेहार','Khunti':'खूंटी','Simdega':'सिमडेगा','Lohardaga':'लोहारडागा','Ramgarh':'रामगढ़'};
 const I18N={
- en:{details:'☰ Details',title:'Giridih Assembly Explorer',
+ en:{details:'Details',title:'Giridih Assembly Explorer',
   subtitle:'Jharkhand · 6 highlighted segments · village names from <b>vb_soi_jh.GeoJSON</b>',
   selection:'Selection',hint:'Click a highlighted segment to explore its villages.',
   villagesH:'Villages',villages:'villages',search:'Search village or gram panchayat…',
@@ -151,8 +223,8 @@ const I18N={
   mapped:'Villages mapped',source:'Source',focusVillage:'Focus village',blockGP:'Block / GP',
   of:'of',across:'· across all segments',first200:'· first 200 shown — refine search',
   noMatch:'No village matched that search.',gpTip:'Gram Panchayat',clickTip:'Click to zoom · AC',
-  outside:'Outside Giridih focus',basemap:'Basemap & opacity',satellite:'Satellite',satOp:'Tile opacity',ovOp:'Overlay opacity',credit:'Imagery © Esri'},
- hi:{details:'☰ विवरण',title:'गिरिडीह विधानसभा एक्सप्लोरर',
+  outside:'Outside Giridih focus',basemap:'Basemap & opacity',satellite:'Satellite',satOp:'Tile opacity',ovOp:'Overlay opacity',credit:'Imagery © Esri',panelEyebrow:'JHARKHAND · FIELD ATLAS',panelEyebrow2:'ASSEMBLY · VILLAGE LAYER',brandTitle:'Giridih Explorer',statSegments:'segments',statFocus:'highlighted',statVillages:'villages',legend:'Legend',legendFocus:'Giridih segments',legendMuted:'Other constituencies',legendVillage:'Village boundary'},
+ hi:{details:'विवरण',title:'गिरिडीह विधानसभा एक्सप्लोरर',
   subtitle:'झारखंड · 6 हाइलाइटेड खंड · गांव के नाम <b>vb_soi_jh.GeoJSON</b> से',
   selection:'चयन',hint:'गांव देखने के लिए किसी हाइलाइटेड खंड पर क्लिक करें।',
   villagesH:'गांव',villages:'गांव',search:'गांव या ग्राम पंचायत खोजें…',
@@ -163,7 +235,7 @@ const I18N={
   mapped:'मैप किए गए गांव',source:'स्रोत',focusVillage:'फोकस गांव',blockGP:'ब्लॉक / ग्राम पंचायत',
   of:'में से',across:'· सभी खंडों में',first200:'· पहले 200 दिखाए गए — खोज सुधारें',
   noMatch:'इस खोज से कोई गांव नहीं मिला।',gpTip:'ग्राम पंचायत',clickTip:'ज़ूम के लिए क्लिक करें · खंड',
-  outside:'गिरिडीह फोकस से बाहर',basemap:'आधार मानचित्र और पारदर्शिता',satellite:'उपग्रह',satOp:'चित्र पारदर्शिता',ovOp:'ओवरले पारदर्शिता',credit:'चित्र © Esri'}
+  outside:'गिरिडीह फोकस से बाहर',basemap:'आधार मानचित्र और पारदर्शिता',satellite:'उपग्रह',satOp:'चित्र पारदर्शिता',ovOp:'ओवरले पारदर्शिता',credit:'चित्र © Esri',panelEyebrow:'झारखंड · फील्ड एटलस',panelEyebrow2:'विधानसभा · गांव परत',brandTitle:'गिरिडीह एक्सप्लोरर',statSegments:'खंड',statFocus:'हाइलाइटेड',statVillages:'गांव',legend:'किंवदंती',legendFocus:'गिरिडीह खंड',legendMuted:'अन्य निर्वाचन क्षेत्र',legendVillage:'गांव की सीमा'}
 };
 let lang='en',W,H,proj,path,sel=null,vsel=null,showV=true,showN=false;
 let satOn=true,tileOp=.55,overOp=.40,zBase=8,tileFrame=null;
@@ -234,9 +306,22 @@ function applyI18n(){
   gL.selectAll('text').text(d=>acShort(d));
   renderList();updateInfo();
 }
+function fmtLL(v,pos,neg){return Math.abs(v).toFixed(4)+'\u00B0 '+(v>=0?pos:neg)}
+function updateHud(tr,ev){
+  if(!proj||!W||!tr)return;
+  const pt=ev?d3.pointer(ev,svg.node()):[W/2,H/2];
+  const ll=proj.invert([(pt[0]-tr.x)/tr.k,(pt[1]-tr.y)/tr.k]);
+  if(ll&&isFinite(ll[0])&&isFinite(ll[1]))coord.textContent=fmtLL(ll[1],'N','S')+', '+fmtLL(ll[0],'E','W');
+  zoomLbl.textContent='Z '+tr.k.toFixed(1);
+  const lat=(ll?ll[1]:24)*Math.PI/180,mPerPx=6371000*Math.cos(lat)/(proj.scale()*tr.k);
+  const opts=[10,20,50,100,200,500,1000,2000,5000,10000,20000,50000,100000,200000,500000,1000000];
+  const m=opts.reduce((a,b)=>Math.abs(b-95*mPerPx)<Math.abs(a-95*mPerPx)?b:a);
+  scaleLine.style.width=Math.max(26,Math.min(220,m/mPerPx)).toFixed(0)+'px';
+  scaleLbl.textContent=m>=1000?(m/1000).toLocaleString('en-IN')+' km':m+' m';
+}
 function fit(){
   const r=svg.node().getBoundingClientRect();W=r.width;H=r.height;
-  proj=d3.geoMercator().fitExtent([[padL(),60],[W-70,H-30]],DATA);path=d3.geoPath(proj);
+  proj=d3.geoMercator().fitExtent([[padL(),82],[W-70,H-30]],DATA);path=d3.geoPath(proj);
   zBase=Math.log2(proj.scale()*Math.PI/128);
   gAc.selectAll('path').attr('d',path);
   gL.selectAll('text').attr('transform',d=>`translate(${path.centroid(d)})`);
@@ -353,7 +438,7 @@ function renderList(){
 const zoom=d3.zoom().scaleExtent([1,60]).on('zoom',e=>{
   g.attr('transform',e.transform);
   gL.style('display',e.transform.k>3?'none':null);
-  labelVis(e.transform);queueTiles();
+  labelVis(e.transform);queueTiles();updateHud(e.transform);
 });
 svg.call(zoom);
 zi.onclick=()=>svg.transition().call(zoom.scaleBy,1.6);
@@ -366,8 +451,8 @@ vLabels.onclick=()=>{showN=!showN;vLabels.classList.toggle('on',showN);labelVis(
 document.getElementById('lang').onclick=()=>{lang=lang==='en'?'hi':'en';applyI18n()};
 const satToggle=document.getElementById('satToggle'),satSlider=document.getElementById('satOp'),ovSlider=document.getElementById('ovOp');
 satToggle.onchange=()=>{satOn=satToggle.checked;gTile.style('display',satOn?null:'none');if(satOn)updateTiles()};
-satSlider.oninput=()=>{tileOp=+satSlider.value/100;gTile.attr('opacity',tileOp);if(tileOp>0)updateTiles()};
-ovSlider.oninput=()=>{overOp=+ovSlider.value/100;applyOverlayOpacity()};
+satSlider.oninput=()=>{tileOp=+satSlider.value/100;gTile.attr('opacity',tileOp);if(tileOp>0)updateTiles();document.getElementById('satVal').textContent=satSlider.value+'%'};
+ovSlider.oninput=()=>{overOp=+ovSlider.value/100;applyOverlayOpacity();document.getElementById('ovVal').textContent=ovSlider.value+'%'};
 q.oninput=renderList;
 tg.onclick=()=>{panel.classList.toggle('hide');fit()};
 if(innerWidth<=760)panel.classList.add('hide');
@@ -377,5 +462,10 @@ fit();
 selectAC(focusByAc.get(32),false);
 applyI18n();
 applyOverlayOpacity();gTile.attr('opacity',tileOp);updateTiles();
+document.getElementById('satVal').textContent=satSlider.value+'%';
+document.getElementById('ovVal').textContent=ovSlider.value+'%';
+quickFocus.onclick=()=>gfocus.onclick();
+svg.on('mousemove',ev=>updateHud(d3.zoomTransform(svg.node()),ev));
+updateHud(d3.zoomTransform(svg.node()));
 
 </script></body></html>
