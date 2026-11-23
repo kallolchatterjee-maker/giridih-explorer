@@ -10,6 +10,7 @@ The published site is served with GitHub Pages from `index.html`.
 - Village boundaries and names for 2,761 Giridih villages, assigned to their assembly segment.
 - Search by village, block, or gram panchayat; click a village to zoom to it.
 - English / हिन्दी interface toggle.
+- Esri World Imagery satellite basemap synced to pan/zoom, with tile-opacity and overlay-opacity sliders.
 - Light theme.
 
 ## Data
