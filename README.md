@@ -11,6 +11,7 @@ The published site is served with GitHub Pages from `index.html`.
 - Search by village, block, or gram panchayat; click a village to zoom to it.
 - English / हिन्दी interface toggle.
 - Esri World Imagery satellite basemap synced to pan/zoom, with tile-opacity and overlay-opacity sliders.
+- Modern mapping-tool interface: floating command bar and glass panels, icon controls, live coordinate/zoom readout, dynamic scale bar, and legend.
 - Light theme.
 
 ## Data
