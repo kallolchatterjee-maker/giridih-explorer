@@ -6,7 +6,7 @@ The published site is served with GitHub Pages from `index.html`.
 
 ## Features
 
-- All 95 Jharkhand assembly segments; the six Giridih segments are highlighted and the rest are muted.
+- All 95 Jharkhand assembly segments at full source fidelity (unsimplified coordinates from `Jharkhand.geojson`); the six Giridih segments are highlighted and the rest are muted.
 - Village boundaries and names for 2,761 Giridih villages, assigned to their assembly segment.
 - Search by village, block, or gram panchayat; click a village to zoom to it.
 - English / हिन्दी interface toggle.
